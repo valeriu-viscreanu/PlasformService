@@ -1,15 +1,11 @@
-using System;
-using System.Linq;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using PlatformService.Models;
 
 namespace PlatformService.Data
 {
     public static class PrepDb
     {
-        public static void PrepPopulation(IApplicationBuilder app, bool isProd)
+        public static void PrepPopulation(IApplicationBuilder app, bool isProd = false)
         {
             using( var serviceScope = app.ApplicationServices.CreateScope())
             {
