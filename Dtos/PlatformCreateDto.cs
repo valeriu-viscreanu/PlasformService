@@ -2,15 +2,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PlatformService.Dtos
 {
-    public class PlatformCreateDto
+    public record PlatformCreateDto
     {
         [Required]
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         [Required]
-        public string Publisher { get; set; }
+        public string Publisher { get; init; }
 
         [Required]
-        public string Cost { get; set; }
+        public string Cost { get; init; }
     }
 }
