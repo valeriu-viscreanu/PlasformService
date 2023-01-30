@@ -62,27 +62,28 @@ namespace PlatformService.Controllers
 
             var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
 
-            // Send Sync Message
-            // try
-            // {
-            //     await _commandDataClient.SendPlatformToCommand(platformReadDto);
-            // }
-            // catch(Exception ex)
-            // {
-            //     Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
-            // }
-
-            //Send Async Message
+            //Send Sync Message
             try
             {
-                var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(platformReadDto);
-                platformPublishedDto.Event = "Platform_Published";
-                _messageBusClient.PublishNewPlatform(platformPublishedDto);
+                 Console.WriteLine($"-- Starting to publish {platformReadDto.Name}");
+                await _commandDataClient.SendPlatformToCommand(platformReadDto);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
+                Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
             }
+
+            //Send Async Message
+            // try
+            // {
+            //     var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(platformReadDto);
+            //     platformPublishedDto.Event = "Platform_Published";
+            //     _messageBusClient.PublishNewPlatform(platformPublishedDto);
+            // }
+            // catch (Exception ex)
+            // {
+            //     Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
+            // }
 
             return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id}, platformReadDto);
         }
