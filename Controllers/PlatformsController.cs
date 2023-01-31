@@ -16,18 +16,21 @@ namespace PlatformService.Controllers
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
         private readonly IMessageBusClient _messageBusClient;
+        private readonly IConsulRegistryService _consulRegistryService;
 
         public PlatformsController(
             IPlatformRepo repository, 
             IMapper mapper,
             ICommandDataClient commandDataClient,
-            IMessageBusClient messageBusClient
+            IMessageBusClient messageBusClient,
+            IConsulRegistryService consulRegistryService
             )
         {
             _repository = repository;
             _mapper = mapper;
             _commandDataClient = commandDataClient;
             _messageBusClient = messageBusClient;
+            _consulRegistryService = consulRegistryService;
         }
 
         [HttpGet]
@@ -65,6 +68,8 @@ namespace PlatformService.Controllers
             //Send Sync Message
             try
             {
+                var serviceUri = _consulRegistryService.GetServiceUri("command"); //TODO move to Config
+                 Console.WriteLine($"-- Command service Uri: {serviceUri.AbsoluteUri}");
                  Console.WriteLine($"-- Starting to publish {platformReadDto.Name}");
                 await _commandDataClient.SendPlatformToCommand(platformReadDto);
             }

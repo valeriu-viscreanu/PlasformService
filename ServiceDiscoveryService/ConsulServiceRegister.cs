@@ -28,7 +28,7 @@ public async Task StartAsync(CancellationToken cancellationToken)
 
     };
     
-    //await client.Agent.ServiceDeregister(platformCfg.ServiceId, cancellationToken);
+    await client.Agent.ServiceDeregister(platformCfg.ServiceId, cancellationToken);
     await client.Agent.ServiceRegister(agentServiceRegistration, cancellationToken);    
 }
 

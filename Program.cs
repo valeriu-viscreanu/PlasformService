@@ -15,6 +15,7 @@ builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 var consuleUri = new Uri(builder.Configuration.GetSection("Consul")["URL"]);
 builder.Services.AddSingleton<IHostedService, ConsulServiceRegister>();
+builder.Services.AddSingleton<IConsulRegistryService, ConsulRegistryService>();
 builder.Services.AddSingleton<IConsulClient, ConsulClient>( 
     p => new ConsulClient(cfg => cfg.Address = consuleUri));
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
